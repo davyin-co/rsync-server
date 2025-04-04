@@ -35,16 +35,6 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
             type=ref,event=branch,enable=${{ github.ref_name != 'main' }}
             type=ref,event=tag
-      - name: Docker meta aliyun
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            davyinsa/rsync-server
-          tags: |
-            type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
-            type=ref,event=branch,enable=${{ github.ref_name != 'main' }}
-            type=ref,event=tag
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
