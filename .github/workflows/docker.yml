@@ -15,8 +15,6 @@ on:
         description: 'Reason'
         required: true
         default: 'blabla...'
-
-
 jobs:
   docker:
 
@@ -28,6 +26,16 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            davyinsa/rsync-server
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
+            type=ref,event=branch,enable=${{ github.ref_name != 'main' }}
+            type=ref,event=tag
+      - name: Docker meta aliyun
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -72,4 +80,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: registry.cn-hangzhou.aliyuncs.com/davyin/rsync-server:${{ steps.meta.outputs.tags }}
+          tags: registry.cn-hangzhou.aliyuncs.com/davyin/rsync-server:${{ steps.meta.outputs.version }}
